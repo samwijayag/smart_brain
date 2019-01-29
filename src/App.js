@@ -51,8 +51,8 @@ class App extends Component {
 		 this.setState({
 		 	user:{
 		 		id:data.id,
+		 		name:data.name, 
 				email:data.email,
-				name:data.name, 
 				entries:data.entries,
 				joined:data.joined
 			}
@@ -137,7 +137,7 @@ class App extends Component {
 			       	</div>
 			        : (
 			        	this.state.route === 'signin' 
-			        	? <Signin onRouteChange={this.onRouteChange}/>
+			        	? <Signin loadUser={this.load} onRouteChange={this.onRouteChange}/>
 			        	: <Register 
 			        	loadUser = {this.loadUser}
 			        	onRouteChange={this.onRouteChange}/>
