@@ -27,10 +27,7 @@ const particlesOptions = {
 			}
 		}
 }
-class App extends Component {
-	constructor(){
-		super();
-		this.state = {
+const initialState = {
 			input: '',
 			imageUrl: '', 
 			box:{},
@@ -45,7 +42,13 @@ class App extends Component {
 
 			}
 		}
+
+class App extends Component {
+	constructor(){
+		super();
+		this.state = initialState
 	}
+
 
 	loadUser = (data) => {
 		 this.setState({
@@ -101,6 +104,7 @@ class App extends Component {
             .then(count => {
               this.setState(Object.assign(this.state.user, { entries: count}))
             })
+            .catch(console.log)
 
         }
         this.displayFaceBox(this.calculateFaceLocation(response))
@@ -110,7 +114,7 @@ class App extends Component {
 
 	onRouteChange = (route) => {
 		if(route=== 'signout'){
-			this.setState({isSignedIn: false})
+			this.setState(initialState)
 		}else if(route ==='home'){
 			this.setState({isSignedIn: true})
 		}
@@ -128,7 +132,10 @@ class App extends Component {
 		        { this.state.route === 'home'
 		        	 ? <div>
 				        <Logo />
-				        <Rank />
+				        <Rank 
+				        	name={this.state.user.name}
+               				entries={this.state.user.entries}
+				        />
 				        <ImageLinkForm 
 					        onInputChange ={this.onInputChange}
 					       	onButtonSubmit={this.onButtonSubmit}
@@ -137,7 +144,7 @@ class App extends Component {
 			       	</div>
 			        : (
 			        	this.state.route === 'signin' 
-			        	? <Signin loadUser={this.load} onRouteChange={this.onRouteChange}/>
+			        	? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
 			        	: <Register 
 			        	loadUser = {this.loadUser}
 			        	onRouteChange={this.onRouteChange}/>
